@@ -1,0 +1,154 @@
+Tutorial 33: React ToDoApp Phase 5
+
+//App.js:
+
+import React from "react"
+import TodoItem from "./TodoItem"
+import todosData from "./todosData"
+
+class App extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            todos: todosData
+        }
+    }
+    
+    render() {
+        const todoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item}/>)
+        
+        return (
+            <div className="todo-list">
+                {todoItems}
+            </div>
+        )    
+    }
+}
+
+export default App
+
+//TodoItem.js:
+
+/**
+ * Challenge: Get rid of our warning about not having an onChange on our input. For now, the function that runs onChange can simply console.log something.
+ */
+
+import React from "react"
+
+function TodoItem(props) {
+    return (
+        <div className="todo-item">
+            <input 
+                type="checkbox" 
+                checked={props.item.completed} 
+                onChange={() => console.log("Changed!")}
+            />
+            <p>{props.item.text}</p>
+        </div>
+    )
+}
+
+export default TodoItem
+
+//index.html:
+
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="index.pack.js"></script>
+    </body>
+</html>
+
+//index.js:
+
+import React from "react"
+import ReactDOM from "react-dom"
+
+import App from "./App"
+
+ReactDOM.render(<App />, document.getElementById("root"))
+
+//style.css:
+
+body {
+    background-color: whitesmoke;
+}
+
+.todo-list {
+    background-color: white;
+    margin: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #efefef;
+    box-shadow:
+    /* The top layer shadow */
+        0 1px 1px rgba(0,0,0,0.15),
+            /* The second layer */
+        0 10px 0 -5px #eee,
+            /* The second layer shadow */
+        0 10px 1px -4px rgba(0,0,0,0.15),
+            /* The third layer */
+        0 20px 0 -10px #eee,
+            /* The third layer shadow */
+        0 20px 1px -9px rgba(0,0,0,0.15);
+    padding: 30px;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px 20px 0;
+    width: 70%;
+    border-bottom: 1px solid #cecece;
+    font-family: Roboto, sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+    color: #333333;
+}
+
+input[type=checkbox] {
+    margin-right: 10px;
+    font-size: 30px;
+}
+
+input[type=checkbox]:focus {
+    outline: 0;
+}
+
+//todosData.js
+
+const todosData = [
+    {
+        id: 1,
+        text: "Take out the trash",
+        completed: true
+    },
+    {
+        id: 2,
+        text: "Grocery shopping",
+        completed: false
+    },
+    {
+        id: 3,
+        text: "Clean gecko tank",
+        completed: false
+    },
+    {
+        id: 4,
+        text: "Mow lawn",
+        completed: true
+    },
+    {
+        id: 5,
+        text: "Catch up on Arrested Development",
+        completed: false
+    }
+]
+
+export default todosData

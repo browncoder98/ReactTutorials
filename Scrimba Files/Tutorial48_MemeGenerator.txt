@@ -1,0 +1,247 @@
+Tutorial 48: Meme Generator
+
+//App.js:
+
+import React from "react"
+import Header from "./Header"
+import MemeGenerator from "./MemeGenerator"
+
+function App() {
+    return (
+        <div>
+            <Header />
+            <MemeGenerator />
+        </div>
+    )
+}
+
+export default App
+
+//Header.js:
+
+import React from "react"
+
+function Header() {
+    return (
+        <header>
+            <img 
+                src="http://www.pngall.com/wp-content/uploads/2016/05/Trollface.png" 
+                alt="Problem?"
+            />
+            <p>Meme Generator</p>
+        </header>
+    )
+}
+
+export default Header
+
+//MemeGenerator.js:
+
+import React, {Component} from "react"
+
+class MemeGenerator extends Component {
+    constructor() {
+        super()
+        this.state = {
+            topText: "",
+            bottomText: "",
+            randomImg: "http://i.imgflip.com/1bij.jpg",
+            allMemeImgs: []
+        }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+    
+    componentDidMount() {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(response => response.json())
+            .then(response => {
+                const {memes} = response.data
+                this.setState({ allMemeImgs: memes })
+            })
+    }
+    
+    handleChange(event) {
+        const {name, value} = event.target
+        this.setState({ [name]: value })
+    }
+    
+    handleSubmit(event) {
+        event.preventDefault()
+        const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
+        const randMemeImg = this.state.allMemeImgs[randNum].url
+        this.setState({ randomImg: randMemeImg })
+    }
+    
+    render() {
+        return (
+            <div>
+                <form className="meme-form" onSubmit={this.handleSubmit}>
+                    <input 
+                        type="text"
+                        name="topText"
+                        placeholder="Top Text"
+                        value={this.state.topText}
+                        onChange={this.handleChange}
+                    /> 
+                    <input 
+                        type="text"
+                        name="bottomText"
+                        placeholder="Bottom Text"
+                        value={this.state.bottomText}
+                        onChange={this.handleChange}
+                    /> 
+                
+                    <button>Gen</button>
+                </form>
+                <div className="meme">
+                    <img src={this.state.randomImg} alt="" />
+                    <h2 className="top">{this.state.topText}</h2>
+                    <h2 className="bottom">{this.state.bottomText}</h2>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default MemeGenerator
+
+//index.html:
+
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="index.pack.js"></script>
+    </body>
+</html>
+
+
+//index.js:
+
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+
+ReactDOM.render(<App />, document.getElementById("root"))
+
+
+//style.css:
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: whitesmoke;
+}
+
+header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    background: #6441A5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+header > img {
+    height: 80%;
+    margin-left: 10%;
+}
+
+header > p {
+    font-family: VT323, monospace;
+    color: whitesmoke;
+    font-size: 50px;
+    margin-left: 60px;
+}
+
+.meme {
+    position: relative;
+    width: 90%;
+    margin: auto;
+}
+
+.meme > img {
+    width: 100%;
+}
+
+.meme > h2 {
+    position: absolute;
+    width: 80%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 15px 0;
+    padding: 0 5px;
+    font-family: impact, sans-serif;
+    font-size: 2em;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 2px 0 #000,
+        2px 0 0 #000,
+        0 -2px 0 #000,
+        -2px 0 0 #000,
+        2px 2px 5px #000;
+}
+
+.meme > .bottom {
+    bottom: 0;
+}
+
+.meme > .top {
+    top: 0;
+}
+
+.meme-form {
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.meme-form > input {
+    width: 45%;
+    height: 40px;
+}
+
+.meme-form > button {
+    border: none;
+    font-family: VT323, monospace;
+    font-size: 25px;
+    letter-spacing: 1.5px;
+    color: white;
+    background: #6441A5;
+}
+
+.meme-form > input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-family: VT323, monospace;
+  font-size: 25px;
+  text-align: cen
+}
+.meme-form > input::-moz-placeholder { /* Firefox 19+ */
+  font-family: VT323, monospace;
+  font-size: 25px;
+  text-align: cen
+}
+.meme-form > input:-ms-input-placeholder { /* IE 10+ */
+  font-family: VT323, monospace;
+  font-size: 25px;
+  text-align: cen
+}
+.meme-form > input:-moz-placeholder { /* Firefox 18- */
+  font-family: VT323, monospace;
+  font-size: 25px;
+  text-align: cen
+}
+

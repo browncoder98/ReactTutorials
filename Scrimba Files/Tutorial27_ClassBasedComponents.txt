@@ -1,0 +1,61 @@
+
+//Tutorial 27: Class Based Components
+
+/* Here the contrast between Classes and Functional components are described via plugins */
+
+//App.js:
+
+import React from "react"
+
+// function App(props) {
+//     return (
+//         <div>
+//             <h1>{props.whatever}</h1>
+//         </div>
+//     )
+// }
+
+class App extends React.Component {
+    
+    yourMethodHere() {
+        
+    }
+    
+    render() {
+        return (
+            <div>
+                <h1>{this.props.whatever}</h1>
+            </div>
+        )
+    }
+}
+
+export default App
+
+// The 'this' key word is used in Class before props in case of class based components
+
+//index.html:
+
+html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="index.pack.js"></script>
+    </body>
+</html>
+
+//index.js:
+
+import React from "react"
+import ReactDOM from "react-dom"
+
+import App from "./App"
+
+ReactDOM.render(<App />, document.getElementById("root"))
+
+//style.css:
+
+body{}
+
