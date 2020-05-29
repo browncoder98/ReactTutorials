@@ -15,19 +15,18 @@
 
 * Create a new repository on Github and name the repository according to one's own desire.
 * Go to the "package.json" file for the project.
-* Include the following onto the current object displayed:
+* Include the following onto the current object displayed
   ```javascript
           "homepage": "https://your-github-user-name.github.io/insert-repo-name-here",
-    ```
+  ```
 
 * Scroll down to the "scripts" properties, edit and add the following code.
      ```javascript
 	          "scripts" : {
 		          "predeploy": "npm run build",
 		           "deploy": "gh-pages -d build",
-             ............
-            ..........}
-      ```
+            			} 
+      
 
 * Go to the command prompt and terminate whatever is going on
 * Redirect your Command prompt to the location of the file
